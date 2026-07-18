@@ -2,6 +2,7 @@ import styles from "./PhoneContact.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteContact } from "../redux/operations";
 import { selectContacts } from "../redux/selectors";
+import PropTypes from "prop-types";
 
 
 function PhoneContacts() {
@@ -18,7 +19,7 @@ function PhoneContacts() {
     <ul className={styles.contactList}>
       {filteredContacts.map(contact => (
         <li className={styles.contactItem} key={contact.id}>
-          {contact.name} : {contact.phone}
+          {contact.name} : {contact.number}
           <button onClick={() => dispatch(deleteContact(contact.id))}>
             Delete
           </button>
@@ -27,5 +28,7 @@ function PhoneContacts() {
     </ul>
   );
 }
+
+PhoneContacts.propTypes = {};
 
 export default PhoneContacts;

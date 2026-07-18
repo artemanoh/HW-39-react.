@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   addContact,
 } from "../redux/operations";
+import PropTypes from "prop-types";
 
 function PhoneInput() {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function PhoneInput() {
     event.preventDefault();
     dispatch(addContact({
   name: form.name,
-  phone: form.number
+  number: form.number
 }));
     setForm({ name: '', number: '' });
   };
@@ -54,6 +55,6 @@ function PhoneInput() {
       </form>
     );
   }
-
+PhoneInput.propTypes = {};
 
 export default PhoneInput;

@@ -1,63 +1,60 @@
-import { Component } from 'react';
-import './App.css';
-import PhoneContacts from './components/PhoneContacts';
-import PhoneInput from './components/PhoneInput';
-import { nanoid } from 'nanoid';
-import Filter from './components/Filter';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchContacts } from "./redux/operations";
+import { refreshUser } from "./redux/operations";
+import Contacts from "./pages/Contacts";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+import Navigation from "./components/Navigation/Navigation";
+import UserMenu from "./components/UserMenu/UserMenu";
 
 function App() {
   const dispatch = useDispatch();
+
 useEffect(() => {
-  dispatch(fetchContacts());
+  dispatch(refreshUser());
 }, [dispatch]);
-  // handleFilterChange = (event) => {
-  //   this.setState({ filter: event.target.value })
-  // };
+  const isLoggedIn = useSelector(
+    state => state.auth.isLoggedIn
+  );
 
+  return (
+    <>
+      <Navigation />
 
+      {isLoggedIn && <UserMenu />}
 
-  // handleChange = (event) => {
-  //   const { value, name } = event.target;
-  //   this.setState({ [name]: value });
-  // }
+      <Routes>
+        <Route
+          path="/"
+          element={<Navigate to="/contacts" replace />}
+        />
 
-  // handleDeleteContact = (id) => {
-  //   this.setState(prev => ({
-  //     contacts: prev.contacts.filter(contact => contact.id !== id)
-  //   }));
-  // }
+        <Route
+          path="/contacts"
+          element={
+            isLoggedIn ? (
+              <Contacts />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
-  // handleAddContact = (name, number) => {
-  //   const isDuplicate = this.state.contacts.some(
-  //     contact => contact.name.toLowerCase() === name.toLowerCase()
-  //   )
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-  //   if (isDuplicate) {
-  //     alert(`Contact ${name} is already in contacts!`)
-  //     return;
-  //   }
-  //   const newContact = { id: nanoid(), name, number };
-  //   this.setState(prev => ({
-  //     contacts: [...prev.contacts, newContact],
-  //   }));
-  // };
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+      </Routes>
+    </>
+  );
+}
 
-  // render() {
-  //   const normalisedFilter = this.state.filter.toLowerCase();
-  //   const filteredContacts = this.state.contacts.filter(contact => contact.name.toLowerCase().includes(normalisedFilter));
-    return (
-      <div className="App">
-        <h1>Phonebook</h1>
-        <PhoneInput />
-        <h2>Contacts</h2>
-        <Filter />
-        <PhoneContacts />
-      </div>
-    );
-  }
-// }
-// тяжко тяжко:(
 export default App;

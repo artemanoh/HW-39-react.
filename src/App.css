@@ -44,3 +44,17 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f9fafb;
+  margin: 0;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+button {
+  font-size: 16px;
+}
